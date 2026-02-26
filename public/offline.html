@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#1d4ed8" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>SnapUp - You're Offline</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --blue-800: #1e40af;
+      --blue-900: #1e3a8a;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(145deg, var(--blue-600) 0%, var(--blue-700) 35%, var(--blue-800) 70%, var(--blue-900) 100%);
+      color: white;
+      padding: 24px;
+      padding-top: calc(24px + env(safe-area-inset-top, 0px));
+      padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Subtle animated background pattern */
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 600px 600px at 20% 30%, rgba(255,255,255,0.04) 0%, transparent 70%),
+        radial-gradient(ellipse 400px 400px at 80% 70%, rgba(255,255,255,0.03) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Floating particles */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      animation: float 20s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .particle:nth-child(1) { width: 200px; height: 200px; top: -60px; right: -40px; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 120px; height: 120px; bottom: 10%; left: -30px; animation-delay: -7s; }
+    .particle:nth-child(3) { width: 80px; height: 80px; top: 40%; right: 10%; animation-delay: -14s; }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(15px, -20px) scale(1.05); }
+      50% { transform: translate(-10px, 15px) scale(0.95); }
+      75% { transform: translate(20px, 10px) scale(1.02); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: 440px;
+      width: 100%;
+      animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(24px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Logo */
+    .logo-container {
+      width: 100px;
+      height: 100px;
+      border-radius: 28%;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+      box-shadow:
+        0 0 0 1px rgba(255, 255, 255, 0.15),
+        0 16px 48px -8px rgba(0, 0, 0, 0.2),
+        0 0 60px rgba(37, 99, 235, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    .logo-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
+      border-radius: inherit;
+    }
+    .logo-letter {
+      font-size: 52px;
+      font-weight: 900;
+      color: white;
+      line-height: 1;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Offline icon */
+    .offline-icon {
+      width: 56px;
+      height: 56px;
+      margin-bottom: 20px;
+      opacity: 0.7;
+      animation: pulse-gentle 3s ease-in-out infinite;
+    }
+    @keyframes pulse-gentle {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 0.9; transform: scale(1.05); }
+    }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.6;
+      margin-bottom: 32px;
+      max-width: 340px;
+    }
+
+    /* Cached data card */
+    .cache-card {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      text-align: left;
+    }
+    .cache-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cache-icon svg {
+      width: 22px;
+      height: 22px;
+      opacity: 0.8;
+    }
+    .cache-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .cache-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 4px;
+    }
+    .cache-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: white;
+    }
+    .cache-value .count {
+      color: #93c5fd;
+    }
+
+    /* Try Again button */
+    .btn-retry {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 16px 40px;
+      background: white;
+      color: var(--blue-700);
+      font-size: 16px;
+      font-weight: 700;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.15),
+        0 0 0 0 rgba(255, 255, 255, 0);
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 16px;
+    }
+    .btn-retry:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.2),
+        0 0 0 4px rgba(255, 255, 255, 0.1);
+    }
+    .btn-retry:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+    .btn-retry svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+    }
+    .btn-retry:hover svg {
+      transform: rotate(180deg);
+    }
+    .btn-retry.loading svg {
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Browse cached button */
+    .btn-cached {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 28px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 100%;
+      max-width: 300px;
+    }
+    .btn-cached:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+    .btn-cached svg {
+      width: 18px;
+      height: 18px;
+    }
+    .btn-cached.hidden { display: none; }
+
+    /* Footer */
+    .offline-footer {
+      position: absolute;
+      bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+      left: 0;
+      right: 0;
+      text-align: center;
+      z-index: 1;
+    }
+    .footer-text {
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.25);
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+
+    /* Network status indicator */
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #f87171;
+      margin-right: 6px;
+      animation: blink 2s ease-in-out infinite;
+      vertical-align: middle;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    /* Responsive */
+    @media (min-width: 768px) {
+      .logo-container { width: 120px; height: 120px; }
+      .logo-letter { font-size: 64px; }
+      h1 { font-size: 32px; }
+      .subtitle { font-size: 17px; }
+    }
+
+    /* High-DPI */
+    @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+      .logo-letter { -webkit-font-smoothing: subpixel-antialiased; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating particles -->
+  <div class="particle"></div>
+  <div class="particle"></div>
+  <div class="particle"></div>
+
+  <div class="container">
+    <!-- Logo -->
+    <div class="logo-container">
+      <span class="logo-letter">S</span>
+    </div>
+
+    <!-- Offline WiFi icon -->
+    <svg class="offline-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M1 1L23 23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <path d="M16.72 11.06C17.82 11.55 18.84 12.2 19.74 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M5 12.55C6.97 10.83 9.39 9.82 12 9.82C12.28 9.82 12.56 9.83 12.84 9.86" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M10.71 5.05C11.13 5.02 11.56 5 12 5C16.48 5 20.56 6.89 23.36 10.05" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M0.64 10.05C1.76 8.82 3.06 7.77 4.5 6.93" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M8.53 16.11C9.53 15.4 10.72 15 12 15C12.68 15 13.34 15.11 13.97 15.32" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M12 19L12.01 19" stroke="white" stroke-width="3" stroke-linecap="round"/>
+    </svg>
+
+    <h1>You're Offline</h1>
+    <p class="subtitle">
+      No internet connection detected. Check your WiFi or mobile data and try again.
+    </p>
+
+    <!-- Cached data info -->
+    <div class="cache-card" id="cacheCard" style="display: none;">
+      <div class="cache-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 12H2"/>
+          <path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>
+          <line x1="6" y1="16" x2="6.01" y2="16"/>
+          <line x1="10" y1="16" x2="10.01" y2="16"/>
+        </svg>
+      </div>
+      <div class="cache-info">
+        <div class="cache-label">Cached for offline</div>
+        <div class="cache-value">
+          <span class="count" id="listingCount">0</span> listings saved
+        </div>
+      </div>
+    </div>
+
+    <!-- Try Again button -->
+    <button class="btn-retry" id="retryBtn" onclick="handleRetry()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="23 4 23 10 17 10"/>
+        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+      </svg>
+      Try Again
+    </button>
+
+    <!-- Browse cached listings -->
+    <button class="btn-cached hidden" id="browseBtn" onclick="browseCached()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+        <line x1="8" y1="21" x2="16" y2="21"/>
+        <line x1="12" y1="17" x2="12" y2="21"/>
+      </svg>
+      Browse Cached Listings
+    </button>
+  </div>
+
+  <!-- Footer -->
+  <div class="offline-footer">
+    <div class="footer-text">
+      <span class="status-dot"></span>
+      SnapUp &middot; South Africa's Marketplace
+    </div>
+  </div>
+
+  <script>
+    // ============ IndexedDB: Read cached listings count ============
+    function openOfflineDB() {
+      return new Promise(function(resolve, reject) {
+        var request = indexedDB.open('snapup-offline', 1);
+        request.onerror = function() { reject(request.error); };
+        request.onsuccess = function() { resolve(request.result); };
+        // Don't upgrade — just read
+        request.onupgradeneeded = function(event) {
+          // If DB doesn't exist yet, close and resolve null
+          event.target.transaction.abort();
+          resolve(null);
+        };
+      });
+    }
+
+    async function getCachedListingsCount() {
+      try {
+        var db = await openOfflineDB();
+        if (!db) return 0;
+        if (!db.objectStoreNames.contains('listings')) {
+          db.close();
+          return 0;
+        }
+        var tx = db.transaction('listings', 'readonly');
+        var store = tx.objectStore('listings');
+        return new Promise(function(resolve) {
+          var countReq = store.count();
+          countReq.onsuccess = function() {
+            db.close();
+            resolve(countReq.result);
+          };
+          countReq.onerror = function() {
+            db.close();
+            resolve(0);
+          };
+        });
+      } catch (e) {
+        return 0;
+      }
+    }
+
+    // Show cached count on load
+    getCachedListingsCount().then(function(count) {
+      if (count > 0) {
+        document.getElementById('listingCount').textContent = count;
+        document.getElementById('cacheCard').style.display = 'flex';
+        document.getElementById('browseBtn').classList.remove('hidden');
+      }
+    });
+
+    // ============ Try Again ============
+    function handleRetry() {
+      var btn = document.getElementById('retryBtn');
+      btn.classList.add('loading');
+      btn.textContent = '';
+      btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg> Reconnecting...';
+
+      // Small delay for visual feedback, then reload
+      setTimeout(function() {
+        location.reload();
+      }, 600);
+    }
+
+    // ============ Browse Cached ============
+    function browseCached() {
+      // Navigate to main app — the SW will serve cached index.html
+      // which loads the React app with IndexedDB data
+      window.location.href = '/';
+    }
+
+    // ============ Auto-retry on reconnect ============
+    window.addEventListener('online', function() {
+      // Auto-reload when connection is restored
+      setTimeout(function() {
+        location.reload();
+      }, 500);
+    });
+  </script>
+</body>
+</html>

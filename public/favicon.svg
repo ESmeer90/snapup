@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb"/>
+      <stop offset="50%" style="stop-color:#1e50d8"/>
+      <stop offset="100%" style="stop-color:#1d4ed8"/>
+    </linearGradient>
+    <linearGradient id="sGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff"/>
+      <stop offset="100%" style="stop-color:#e8f0fe"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#0a2463" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <!-- Background rounded square -->
+  <rect width="512" height="512" rx="108" ry="108" fill="url(#bgGrad)"/>
+  <!-- Subtle inner highlight -->
+  <rect x="8" y="8" width="496" height="248" rx="100" ry="100" fill="white" opacity="0.06"/>
+  <!-- S letterform - path-based for consistent cross-platform rendering -->
+  <g filter="shadow" transform="translate(256, 260)" shape-rendering="geometricPrecision">
+    <path d="
+      M-8,-152
+      C52,-152 98,-132 118,-98
+      C132,-74 136,-48 136,-24
+      C136,18 118,52 82,72
+      C62,84 36,92 4,96
+      L-28,100
+      C-64,106 -84,116 -96,132
+      C-104,142 -108,154 -108,168
+      C-108,186 -100,200 -86,210
+      C-70,222 -48,228 -20,228
+      C16,228 44,218 64,200
+      C78,188 86,174 90,156
+      L138,156
+      C134,192 118,222 90,244
+      C60,268 22,280 -22,280
+      C-72,280 -112,264 -138,236
+      C-158,214 -168,186 -168,156
+      C-168,116 -150,84 -114,62
+      C-92,48 -64,40 -28,34
+      L12,28
+      C44,24 66,14 80,0
+      C90,-10 94,-24 94,-40
+      C94,-60 86,-76 70,-88
+      C54,-100 34,-106 8,-106
+      C-24,-106 -50,-98 -68,-82
+      C-82,-70 -90,-54 -94,-34
+      L-142,-34
+      C-138,-72 -122,-102 -94,-124
+      C-62,-148 -22,-160 -8,-152
+      Z
+    " fill="url(#sGrad)"/>
+  </g>
+  <!-- Lightning bolt accent -->
+  <g transform="translate(340, 120)" opacity="0.95">
+    <path d="M0,0 L-14,28 L4,28 L-8,56 L22,20 L6,20 L18,0 Z" fill="#FCD34D" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+  </g>
+</svg>

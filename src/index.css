@@ -1,0 +1,358 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --primary: 221 83% 53%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221 83% 53%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 220 23% 95%;
+    --sidebar-foreground: 215 25% 27%;
+    --sidebar-primary: 221 83% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 14% 90%;
+    --sidebar-accent-foreground: 215 25% 27%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 221 83% 53%;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+
+    --sidebar-background: 215 28% 17%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 217.2 91.2% 59.8%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 215 25% 27%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 215 25% 27%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans dark:bg-background dark:text-foreground;
+  }
+
+  pre, code {
+    @apply font-mono;
+  }
+}
+
+.markdown-editor {
+  @apply font-mono text-base leading-relaxed;
+}
+
+.markdown-preview {
+  @apply prose max-w-none prose-blue dark:prose-invert;
+}
+
+.markdown-preview pre {
+  @apply bg-secondary p-4 rounded-md overflow-x-auto;
+}
+
+.markdown-preview code {
+  @apply text-sm font-mono text-primary;
+}
+
+.markdown-preview h1,
+.markdown-preview h2,
+.markdown-preview h3,
+.markdown-preview h4,
+.markdown-preview h5,
+.markdown-preview h6 {
+  @apply font-sans font-semibold text-foreground;
+}
+
+.markdown-preview ul,
+.markdown-preview ol {
+  @apply my-4 ml-6;
+}
+
+/* Hide scrollbar for category chips and horizontal scroll areas */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Hide scrollbar utility for horizontal scroll areas */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure 100dvh works as fallback */
+@supports not (height: 100dvh) {
+  .h-dvh {
+    height: 100vh;
+  }
+}
+/* Mobile-first fixes for Samsung Galaxy A16 and similar devices */
+@media (max-width: 767px) {
+  /* Ensure main content doesn't overlap with bottom nav */
+  main {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  /* Fix header sticky positioning with safe area */
+  header.sticky {
+    top: 0;
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Prevent notification bell clipping */
+  .notification-bell-container {
+    min-width: 40px;
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+/* Crisp logo rendering */
+.logo-crisp {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ===== Notification Panel Animations ===== */
+
+/* Mobile backdrop fade-in */
+.notif-backdrop-animate {
+  animation: notifBackdropIn 0.2s ease-out forwards;
+}
+@keyframes notifBackdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Mobile panel slide-down */
+.notif-panel-animate {
+  animation: notifPanelSlideIn 0.25s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+@keyframes notifPanelSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Desktop dropdown scale-in */
+.notif-desktop-animate {
+  animation: notifDesktopIn 0.18s ease-out forwards;
+  transform-origin: top right;
+}
+@keyframes notifDesktopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Mobile full-screen panel: ensure it sits above everything */
+.notif-mobile-panel {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ===== Mobile Menu Slide-in Panel Animations ===== */
+
+/* Backdrop fade-in */
+.mobile-menu-backdrop {
+  animation: mobileMenuBackdropIn 0.25s ease-out forwards;
+}
+@keyframes mobileMenuBackdropIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Panel slide-in from right */
+.mobile-menu-panel {
+  animation: mobileMenuSlideIn 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards;
+}
+@keyframes mobileMenuSlideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0.5;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Smooth scrolling for mobile menu content */
+.mobile-menu-scroll {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+
+
+/* Swipe indicator hint animation on panel open */
+.mobile-menu-panel .swipe-indicator,
+.notif-panel-animate .swipe-indicator {
+  animation: swipeHint 1.5s ease-in-out 0.5s 1;
+}
+@keyframes swipeHint {
+  0%, 100% { transform: translateX(0); opacity: 1; }
+  30% { transform: translateX(6px); opacity: 0.7; }
+  60% { transform: translateX(-2px); opacity: 1; }
+}
+
+/* ===== Pull-to-Refresh Styles ===== */
+
+.pull-to-refresh-container {
+  position: relative;
+  touch-action: pan-y;
+}
+
+/* Pull indicator wrapper */
+.ptr-indicator-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  z-index: 5;
+}
+
+/* Pull indicator content */
+.ptr-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 0;
+}
+
+/* Icon container */
+.ptr-icon-container {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #eff6ff, #dbeafe);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2563eb;
+  transition: transform 0.1s ease-out;
+  box-shadow: 0 1px 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Spinning animation for refresh */
+.ptr-spinning {
+  animation: ptrSpin 0.8s linear infinite;
+}
+@keyframes ptrSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Text label */
+.ptr-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b7280;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  transition: opacity 0.15s ease-out;
+}
+
+/* Ensure pull-to-refresh only works on mobile */
+@media (min-width: 768px) {
+  .pull-to-refresh-container {
+    touch-action: auto;
+  }
+  .ptr-indicator-wrapper {
+    display: none !important;
+  }
+}

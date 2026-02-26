@@ -1,0 +1,29 @@
+# SnapUp Marketplace - robots.txt
+# https://snapup.co.za
+
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /settings
+Disallow: /reset-password
+Disallow: /payment-return
+Disallow: /payment-test
+Disallow: /itn-monitor
+
+# Sitemaps
+Sitemap: https://snapup.co.za/sitemap.xml
+
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Google-specific
+User-agent: Googlebot
+Allow: /
+Disallow: /admin
+Disallow: /settings
+
+# Bing-specific
+User-agent: Bingbot
+Allow: /
+Disallow: /admin
+Disallow: /settings
